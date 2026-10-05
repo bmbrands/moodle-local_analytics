@@ -49,7 +49,7 @@ class piwik extends analytics {
         $template = new stdClass();
 
         $template->imagetrack = get_config('local_analytics', 'imagetrack');
-        $template->siteurl = get_config('local_analytics', 'siteurl');
+        $template->siteurl = clean_param(get_config('local_analytics', 'siteurl'), PARAM_URL);
         $template->siteid = get_config('local_analytics', 'siteid');
 
         // Need to add an option for no tracking.
@@ -58,7 +58,7 @@ class piwik extends analytics {
 
         if (!empty($template->siteurl)) {
             if ($cleanurl) {
-                $template->doctitle = "_paq.push(['setDocumentTitle', '".self::trackurl()."']);\n";
+                $template->doctitle = "_paq.push(['setDocumentTitle', '" . self::trackurl(true) . "']);\n";
             } else {
                 $template->doctitle = "";
             }
